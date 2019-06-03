@@ -1,0 +1,26 @@
+<%- include('../partials/navbar') %>
+
+<div class="flex-grid-fourths">
+  <div class="col">
+    <h1 class="center">DogFinder's</h1>
+    <h1 class="center">Organizations 🐶</h1>
+    <br><br><br>
+    <% if (locals.user) { %>
+      <a class="no-deco" href="/org/new"><button class="btn-primary-lg">Create an Organization</button></a>
+    <% } %>
+  </div>
+  <div class="col3">
+  <br><br><br>
+    <ul>
+	  <% orgs.forEach((org) => { %>
+      <%- include('../partials/linked-list-item', {
+        itemlink: buildOrgPath(org),
+        itemtype: 'Org',
+        itemname: org.name,
+      }) %>
+	  <% }) %>
+    </ul>
+  </div>
+  <div class="col">
+  </div>
+</div>

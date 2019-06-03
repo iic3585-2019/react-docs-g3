@@ -1,0 +1,12 @@
+<div class="transparent-navbar">
+  <a href="/">Home</a>
+  <a href="/user">Users</a>
+  <a href="/dog">Dogs</a>
+  <a href="/org">Organizations</a>
+
+  <% if(locals.user){ %>
+  	   <a class="right btn-session" href="/signout">Sign Out</a> <a class="right" href="/user/<%= user.id %>"><%= user.firstName %></a>
+  <% } else { %>
+  		<a class="right" href="/signin">Sign In</a><a class="right" href="/user/new">Sign Up</a>
+  <% } %>
+</div>

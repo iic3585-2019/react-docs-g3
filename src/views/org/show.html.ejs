@@ -1,0 +1,76 @@
+<%- include('../partials/navbar') %>
+
+<div class="flex-grid-fourths">
+  <div class="col">
+
+    <!-- Profile -->
+    <img class="circled" src="https://pbs.twimg.com/profile_images/509587536520302592/JYTQgjvF_400x400.png" width="100%">
+    <a><%= org.name %></a>
+    <p><%= org.description %></p><br>
+    <% if (admin) { %>
+      <p>Administrator: <a href="<%=adminPath%>"><%=admin.username%></a></p>
+    <% } %>
+    <a target="_blank" href="http://maps.google.com/?q=<%=org.lat%>,<%=org.lon%>">Location 📍</a>
+
+    <% if (user) { %>
+      <div class="right">
+        <a class="no-deco" href="/org/<%=org.id%>/edit"><button class="btn btn-primary">Edit</button></a>
+      </div>
+    <% } %>
+
+    <% if (!isMember) { %>
+      <br><br>
+      <a class="no-deco" href="/org/<%=org.id%>/applications/new"><button class="btn btn-primary-lg">Apply to Become a Member</button></a>
+    <% } %>
+  </div>
+
+  <div class="col3">
+    <!-- Follow Button -->
+    <% if (user) { %>
+      <% if (isFollowing) { %>
+        <form action=<%= deleteFollowUrl %> method="post" class="right">
+          <input class="hidden" name="_method" value="delete" />
+          <button class="btn btn-primary" type"submit">Unfollow</button>
+        </form>
+      <% } else { %>
+        <form action= <%= followUrl %> method="post" class="right">
+          <input class="hidden" name="userId" value=<%= user.id %> />
+          <input class="hidden" name="followType" value="user" />
+          <input class="hidden" name="followedId" value=<%= org.id %> />
+          <button class="btn btn-primary" type"submit">Follow</button>
+        </form>
+      <% } %>
+    <% } %>
+
+    <!-- Tabs -->
+    <input class="hidden" id="tab1" type="radio" name="tabs" checked>
+    <label for="tab1">Home</label>
+    <input class="hidden" id="tab2" type="radio" name="tabs">
+    <label for="tab2">Members</label>
+    <!-- only show applications if the user is the organization's administrator -->
+    <% if (isAdmin) { %>
+      <input class="hidden" id="tab3" type="radio" name="tabs">
+      <label for="tab3">Applications</label>
+    <% } %>
+
+    <div class="content">
+      <!-- Tab 1 -->
+      <div id="content1">
+        <ul>
+          <% org.posts.forEach((post) => { %>
+            <li class="post-wrapper"><%- include('../partials/post-included', {post}) %></li>
+          <% }) %>
+        </ul>
+      </div>
+      <!-- Tab 2 -->
+      <div id="content2">
+        <%- include('./member-table', {mems: org.memberships, isAdmin}) %>
+      </div>
+      <!-- Tab 3 -->
+      <% if (isAdmin) { %>
+        <div id="content3">
+          <%- include('./application-table', {apps: org.applications, orgId: org.id}) %>
+        </div>
+      <% } %>
+    </div>
+  </div>

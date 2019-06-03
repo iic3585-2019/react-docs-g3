@@ -1,0 +1,32 @@
+<div>
+  <div>
+    <div>
+      <% if (post.org) { %>
+        <a class="post-user label"><%= post.org.name %></a><span class="post-timestamp label"> · <%=post.date%></span>
+      <% } else if (post.user) { %>
+        <a class="post-user label"><%= post.user.username %></a><span class="post-timestamp label"> · <%=post.date%></span>
+      <% } else { %>
+        <a class="post-user label">Anonymous</a><span class="post-timestamp label"> · <%=post.date%></span>
+      <% } %>
+      <div class="post-content-wrapper">
+        <% if (post.postType == 0) { %>
+          <a class="post-dog-name label" href="/dog/<%=post.dog.id%>"><%= post.dog.nickname %></a><span class="post-description label"> has been found 📍!</span>
+          <p class="label"><%= post.text %></p>
+        <% } else if (post.postType == 1) { %>
+          <a class="post-dog-name label" href="/dog/<%=post.dog.id%>"><%= post.dog.nickname %></a><span class="post-description label"> updated!</span>
+        <% } else { %>
+          <a class="post-dog-name label" href="/dog/<%=post.dog.id%>"><%= post.dog.nickname %></a><span class="post-description label"> has found a home! 🏡</span>
+          <p class="label"><%= post.text %></p>
+        <% } %>
+        <% if (post.photos.length) { %>
+          <% post.photos.forEach((photo) => { %>
+            <img class="img-responsive img-rounded post-img" src="<%= photo.url %>"></img>
+          <% }) %>
+        <% } %>
+      </div>
+    </div>
+    <div class="post-comments-wrapper">
+      <a class="post-comments-count label" href="/posts/<%=post.id%>/comments"><%=post.comments.length%> comments</a>
+    </div>
+  </div>
+</div>

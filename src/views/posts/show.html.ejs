@@ -1,0 +1,42 @@
+<%- include('../partials/navbar') %>
+
+<div class="flex-grid-fourths">
+  <div class="col"></div>
+  <div class="col2">
+  	<% if(post.orgId){ %>
+  		<a href="/org/<%=post.orgId%>"><%= postedBy %></a>
+  	<% } else { %>
+  		<a href="/user/<%=post.user%>"><%= postedBy %></a>
+  	<% } %>
+
+    <% if (post.postType == 0) { %>
+      <a class="post-dog-name" href="/dog/<%=post.dogId%>"><%= post.dogNickname %></a><span class="post-description"> has been found!</span>
+    <% } else if (post.postType == 1) { %>
+      <a class="post-dog-name" href="/dog/<%=post.dogId%>"><%= post.dogNickname %></a><span class="post-description"> updated</span>
+    <% } else { %>
+      <a class="post-dog-name" href="/dog/<%=post.dogId%>"><%= post.dogNickname %></a><span class="post-description"> has found a home! 🏡</span>
+    <% } %>
+	<% if(locals.canEdit){ %>
+		<form method="post" action="../<%=post.id%>/edit">
+			<input type="hidden" name="_method" value="patch" />
+			<textarea class="form-control form-update-text" name="text"><%= post.text%></textarea>
+			<button class="btn btn-primary" type="submit">update</button>
+		</form>
+
+		<form method="post" action="../<%=post.id%>/delete">
+			<input type="hidden" name="_method" value="patch" />
+			<button style="margin-top: 20px;" class="btn btn-danger" type="submit">delete</button>
+		</form>
+	<% } else {%>
+		<p><%= post.text %></p>
+	<% } %>
+	<% if(locals.message){ %>
+		<p>Post updated!</p>
+	<% } %>
+
+	<h5>Comments</h5>
+	<% post.comments.forEach(comment) => { %>
+        <p><a href="<%=comment.link %>"><%= comment.author %></a>: <%=comment.text%></p>
+    <% } %>
+  </div>
+  <div class="col"></div>

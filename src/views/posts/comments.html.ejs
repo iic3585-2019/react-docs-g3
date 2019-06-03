@@ -1,0 +1,39 @@
+<%- include('../partials/navbar') %>
+
+<div class="flex-grid-fourths">
+	<div class="col"></div>
+	<div class="col2">
+
+		<h1>Comments</h1>
+		<p style="margin-bottom: 50px;"><%= post.text %></p>
+
+		<% post.comments.forEach((comment) => {%>
+			<div>
+				<a class="post-user no-deco" href="<%= comment.link %>"><%= comment.postedBy %></a>
+				<% if (comment.edited) { %>
+				<span> * </span>
+				<% } %>
+				<span class="post-timestamp"> · <%=comment.date%></span>
+				<p><%=comment.text%></p>
+				<% if(comment.canEdit){ %>
+					<a href="comments/<%=comment.id%>/edit">edit</a>
+					<form method="post" action="comments/<%=comment.id%>/delete">
+						<input type="hidden" name="_method" value="patch" />
+						<button class="btn btn-danger" style="margin-top: 20px;" type="submit">delete</button>
+					</form>
+				<% } %>
+				<hr>
+			</div>
+		<% })%>
+
+		<% if (locals.user) { %>
+		<h1 style="margin-top:50px;">Add your comment</h1>
+		<form method="post" action="comments/new">
+			<textarea name="text" class="form-control" placeholder="What's going on? 🐶"></textarea>
+			<button class="btn btn-primary" type="submit">Add comment</button>
+		</form>
+		<% } %>
+	</div>
+	<div class="col"></div>
+
+</div>

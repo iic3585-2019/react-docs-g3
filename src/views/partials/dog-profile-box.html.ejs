@@ -1,0 +1,85 @@
+<div class="row" id="dog-card">
+  <div class="col-sm-6">
+    <% if(!locals.type) {%>
+      <div class="nav-content" style="width:100%; background-image:url('https://ak0.picdn.net/shutterstock/videos/18757670/thumb/1.jpg');"></div>
+    <% } else { %>
+      <div class="nav-content" style="width:90%;background-image:url('https://ak0.picdn.net/shutterstock/videos/18757670/thumb/1.jpg');"></div>
+    <% } %>
+  </div>
+  <div class="col-sm-6">
+    <% if (user) { %>
+      <% if(locals.type){ %>
+        <% if (isFollowing) { %>
+          <form action="<%= destroyFollowUrl %>" method="post">
+            <input class="hidden" name="_method" value="delete" />
+            <button class="btn btn-follow btn-danger" type"submit">Unfollow</button>
+          </form>
+        <% } else {%>
+          <form action="<%= followUrl %>" method="post">
+            <button class="btn btn-follow btn-primary" type"submit">Follow</button>
+          </form>
+        <% } %>
+      <% } %>
+    <% } %>
+    <p class="description">Last seen in</p>
+    <p id="dog-last-location">Loading address...</p>
+    <div id="map" style="height:400px;"></div>
+    <h1><a id="dog-name" href="/dog/<%= dog.id%>"><%= dog.nickname %></a></h1>
+    <p class="description">Description</p>
+    <p class="profile-description"><%= dog.description %></p>
+    <p class="description">Age</p>
+    <p class="profile-description"><%= dog.age %> years old</p>
+    <p class="description">Size</p>
+    <p class="profile-description"><%= dog.size %></p>
+    <!--<p class="profile-description">Last seen <a target="_blank" href="http://maps.google.com/?q=<%=dog.lat%>,<%=dog.lon%>">📍</a></p>-->
+    <% if(dog.status){ %>
+      <p class="description">Status</p>
+      <p class="adopted">adopted ✨</p>
+    <% } %>
+    <div id="floating-panel" style="display:none;">
+      <input id="latlng" type="text" value="40.714224,-73.961452">
+      <input id="submit" type="button" value="Reverse Geocode">
+    </div>
+    <script>
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 8,
+          center: { lat: 40.731, lng: -73.997 },
+        });
+        var geocoder = new google.maps.Geocoder;
+        var infowindow = new google.maps.InfoWindow;
+
+        geocodeLatLng(geocoder, map, infowindow);
+      }
+
+      function geocodeLatLng(geocoder, map, infowindow) {
+        var input = document.getElementById('latlng').value;
+        var location = document.getElementById('dog-last-location');
+        var latlngStr = input.split(',', 2);
+        var latlng = { lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1]) };
+        geocoder.geocode({ location: latlng }, function (results, status) {
+          if (status === 'OK') {
+            if (results[0]) {
+              map.setZoom(11);
+              var marker = new google.maps.Marker({
+                position: latlng,
+                map: map,
+              });
+              const name = `${results[0].address_components[1].short_name}, ${results[0].address_components[3].short_name}`;
+              location.innerHTML = name;
+              infowindow.setContent(results[0].formatted_address);
+              infowindow.open(map, marker);
+            } else {
+              window.alert('No results found');
+            }
+          } else {
+            window.alert('Geocoder failed due to: ' + status);
+          }
+        });
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJM21drxuTQ9ntvGCuttk8exzQC0g3sjc&callback=initMap">
+    </script>
+  </div>
+</div>

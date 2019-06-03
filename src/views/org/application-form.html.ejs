@@ -1,0 +1,28 @@
+<%- include('../partials/navbar') %>
+
+<div class="flex-grid-fourths">
+  <div class="col"></div>
+  <div class="col2">
+    <% if (user) { %>
+      <h1>Application for <%= org.name %></h1>
+      <form action="<%submitAppPath%>" method="post">
+      	<label class="form-label">Description</label>
+      	<textarea class="form-control" name="text" placeholder="Describe why you wish to join."></textarea>
+        <br>
+        <button class="btn btn-primary" type="submit">Apply</button>
+      </form>
+      <% if (errors) { %>
+        <% errors.forEach((error) => { %>
+        	<p class="message message-error">Creation error: <%= error.message %></p>
+        <% }) %>
+      <% } %>
+    <% } else { %>
+      <h2>You to be logged in to Apply</h2>
+      <br>
+      <a href="/" class="no-deco"><button class="btn btn-primary">Return Home</button></a>
+      <a href="/signin" class="no-deco"><button class="btn btn-primary">Signin</button></a>
+    <% } %>
+  </div>
+
+  <div class="col"></div>
+</div>

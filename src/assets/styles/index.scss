@@ -1,0 +1,54 @@
+@import './layout';
+@import './courses';
+@import './link';
+
+$light-gray: #e4e5e6;
+
+.section-title{
+  font-weight: bold;
+  font-size: 13px;
+  text-transform: capitalize;
+}
+
+.url-link{
+  word-break: break-all;
+}
+
+.sb-item{
+  font-size: unset;
+  font-weight: 600;
+}
+
+.sidebar-sticky{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  z-index: 100;
+  padding: 0;
+}
+
+.Select-option.is-focused  {
+    background-color: #0000EE !important;
+    color: white !important;
+}
+
+#df-header{
+  background-color: black;
+  color:white;
+  width: 100%;
+}
+
+#df-container{
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  background-color: white;
+  border: 1px solid lightgray;
+  max-height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+#df-content{
+  overflow-y: auto;
+}

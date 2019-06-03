@@ -1,0 +1,30 @@
+<%- include('../partials/navbar') %>
+
+<div style="display:flex; flex-direction:row; height:100%; flex-wrap: wrap; justify-content:center;">
+	<% dogs.forEach((dog) => {%>
+		<div class="profile-box-wrapper">
+			<%- include('../partials/dog-profile-box', {user, dog, type: false})%>
+		</div>
+	<%})%>
+</div>
+<!--<div class="flex-grid-fourths">
+	<div class="col">
+		<h1>Dogs in DogFinder🐶</h1>
+		<br><br>
+		<% if (locals.user) { %>
+			<a class="btn btn-primary new-post-button" href="<%= submitPostPath %>">Compose a new post</a>
+		<% } %>
+	</div>
+	<div class="col3">
+		<br><br><br>
+		<ul>
+		  <% dogs.forEach((dog) => { %>
+		    <li style="font-size:120%;"><a class="no-deco" href="<%= dogPath(dog) %>"><%= dog.nickname %><button style="position:absolute;right:7em;" class="btn btn-primary">Go to Dog Profile</button></a>
+		    </li>
+		    <br>
+		  <% }) %>
+		</ul>
+
+	</div>
+
+</div>-->

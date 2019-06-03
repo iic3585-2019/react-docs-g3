@@ -1,0 +1,22 @@
+<div class="body-wrapper">
+  <div class="navbar-flex">
+    <%- include('../partials/transparent-navbar') %>
+  </div>
+
+  <div class="content-wrapper">
+    <div class="Aligner">
+      <div class="Aligner-item">
+        <% if(message){ %>
+          <img class="img-responsive img-bordered" src="https://i.imgur.com/TTpIGvo.jpg">
+          <p class="validate-message"><%= message %></p>
+          <% if(locals.user){ %>
+            <p class="validate-message"> we sent an email to: <%= user.email %></p>
+          <% } %>
+          <% if(locals.redirectButton){ %>
+              <%- redirectButton %>
+          <% } %>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>

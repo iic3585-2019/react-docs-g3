@@ -1,0 +1,22 @@
+<table id="app-table">
+  <tr>
+    <th class="table-header" style="width:15%;">Username</th>
+    <th class="table-header" style="width:55%;">Description</th>
+    <th class="table-header" style="width:15%;">Accept</th>
+    <th class="table-header" style="width:15%;">Reject</th>
+  </tr>
+  <% apps.forEach((a) => { %>
+    <tr>
+      <th style="width:15%;"><a class="no-deco" href="/user/<%=a.userId%>"><%=a.user.username%></a></th>
+      <th style="width:55%;"><%=a.text%></th>
+      <form action="/org/<%=orgId%>/members/new" method="post">
+        <input type="hidden" name="appId" value="<%=a.id%>" />
+        <th class="table-button"><button class="btn btn-primary" type="submit">Accept</button></th>
+      </form>
+      <form action="/org/<%=orgId%>/applications/<%=a.id%>" method="post">
+        <input type="hidden" name="_method" value="delete" />
+        <th class="table-button"><button class="btn btn-danger" type="submit">Reject</button></th>
+      </form>
+    </tr>
+  <% }) %>
+</table>

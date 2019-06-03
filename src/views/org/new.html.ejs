@@ -1,0 +1,33 @@
+<%- include('../partials/navbar') %>
+
+<div class="flex-grid-fourths">
+  <div class="col"></div>
+
+  <div class="col2">
+    <h1>Create new organization</h1>
+    <form action="<%submitOrgPath%>" method="post">
+    	<label class="form-label">Organization Name</label>
+    	<input class="form-control" name="name" placeholder="Organization Name" />
+
+    	<br>
+
+    	<label class="form-label">Organization Description</label>
+    	<textarea class="form-control" name="description" placeholder="Describe what this organization does."></textarea>
+
+    	<br>
+
+      <label class="form-label">Organization Location</label>
+      <input class="form-control" name="lat" placeholder="-33.499222" />
+      <input class="form-control" name="lon" placeholder="-70.615972" />
+
+    	<button class="btn btn-primary" type="submit">Create</button>
+    </form>
+    <% if (errors) { %>
+      <% errors.forEach((error) => { %>
+      	<p class="message message-error">Creation error: <%= error.message %></p>
+      <% }) %>
+    <% } %>
+  </div>
+
+  <div class="col"></div>
+</div>

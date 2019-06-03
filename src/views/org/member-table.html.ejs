@@ -1,0 +1,18 @@
+<table id="member-table">
+  <tr>
+    <th class="table-header">Username</th>
+    <th class="table-header">Title</th>
+    <% if (isAdmin) { %>
+      <th class="table-header" style="width:15%">Edit</th>
+    <% } %>
+  </tr>
+  <% mems.forEach((m) => { %>
+    <tr>
+      <th><a class="no-deco" href="/user/<%=m.user.id%>"><%=m.user.username%></a></th>
+      <th><%=m.userRole%></th>
+      <% if (isAdmin) { %>
+        <th class="table-button" style="width:15%"><a class="no-deco"><button class="btn btn-primary">Edit</button></a></th>
+      <% } %>
+    </tr>
+  <% }) %>
+</table>

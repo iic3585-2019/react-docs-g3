@@ -1,0 +1,20 @@
+<%- include('../partials/navbar') %>
+
+<div class="flex-grid-fourths">
+	<div class="col"></div>
+
+	<div class="col2">
+		<h2> Are you sure you wish to delete your this organization?</h2>
+		<br>
+		<form action="<%=orgDeletePath%>" method=post>
+			<input type="hidden" name="_method" value="delete" />
+			<button type="submit" class="btn-danger">Yes i'm sure</button>
+		</form>
+		<% if (errors) { %>
+			<% errors.forEach((error) => { %>
+				<p class="message message-error">Creation error: <%= error.message %></p>
+			<% }) %>
+		<% } %>
+	</div>
+	<div class="col"></div>
+</div>

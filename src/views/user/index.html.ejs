@@ -1,0 +1,23 @@
+<%- include('../partials/navbar') %>
+
+<div class="flex-grid-fourths">
+	<div class="col">
+		<h1 class="center">DogFinder's Users 🐶</h1>
+		<br><br>
+		<a class="no-deco" href="/user/new"><button class="btn-primary-lg">Register</button></a>
+	</div>
+	<div class="col3">
+		<br><br><br>
+		<ul>
+		  <% users.forEach((user) => { %>
+		    <%- include('../partials/linked-list-item', {
+					itemlink: userPath(user),
+					itemtype: 'User Profile',
+					itemname: user.username,
+				}) %>
+		  <% }) %>
+		</ul>
+
+	</div>
+
+</div>

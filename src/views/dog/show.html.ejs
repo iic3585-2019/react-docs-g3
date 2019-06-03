@@ -1,0 +1,85 @@
+<%- include('../partials/navbar') %>
+
+<div class="container">
+  <% if(!dog.status){ %>
+      <h1 class="log-dog-title lost">Lost dog</h1>
+  <% } %>
+  <div class="info-profile">
+    <%- include('../partials/dog-profile-box', {user, dog, type: true}) %>
+  </div>
+
+  <section class="tabs">
+    <ul class="nav nav-pills justify-content-center">
+      <li class="nav-item">
+        <a href="javascript:void(0)" class="nav-link active tablinks" href="#" onclick="toggleTabs(event, 'feed')">Feed</a>
+      </li>
+      <li class="nav-item">
+        <a href="javascript:void(0)" class="nav-link tablinks" href="#" onclick="toggleTabs(event, 'timeline')">Timeline</a>
+      </li>
+      <% if(locals.user){ %>
+        <li class="nav-item">
+          <a href="javascript:void(0)" class="nav-link tablinks" href="#" onclick="toggleTabs(event, 'dog-found')">I found this dog!</a>
+        </li>
+      <% } %>
+    </ul>
+
+    <div class="content">
+
+      <div id="feed" class="tabcontent">
+        <% if(locals.user) { %>
+          <div id="react-app" data-current-user-id="<%= locals.user.id %>" data-dog-id="<%= dog.id %>" data-feed-type="dog">
+        <% } else { %>
+          <div id="react-app" data-dog-id="<%= dog.id %>" data-feed-type="dog">
+        <% } %>
+        </div>
+      </div>
+
+      <div id="timeline" class="tabcontent">
+        <section id="cd-timeline" class="cd-container">
+
+          <% dog.posts.forEach((post) => { %>
+
+            <div class="cd-timeline-block">
+              <div class="cd-timeline-img cd-picture"></div>
+              <div class="cd-timeline-content">
+                <% if (post.postType == 0) { %>
+                  <h1>Found 🐶✨🎉❤️!</h1>
+                <% } else if(post.postType == 1) { %>
+                  <h2>Location was updated 📍</h2>
+                <% } else { %>
+                  <h1>Found a home 🏡</h1>
+                <% } %>
+                <p><%= post.text %></p>
+              <span class="cd-date"><%= post.date %></span>
+              </div>
+            </div>
+
+          <% }); %>
+        </section> <!-- cd-timeline -->
+      </div>
+
+      <div id="dog-found" class="tabcontent">
+        <div id="dog-post-app" data-user-id=<%- JSON.stringify(user.id)%> data-dog-id=<%- JSON.stringify(dog.id) %>></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  function toggleTabs(evt, tabName) {
+    let i;
+    let tabcontent;
+    let tablinks;
+    tabcontent = document.getElementsByClassName('tabcontent');
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = 'none';
+    }
+
+    tablinks = document.getElementsByClassName('tablinks');
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(' active', '');
+    }
+
+    document.getElementById(tabName).style.display = 'block';
+    evt.currentTarget.className += ' active';
+  }
+</script>

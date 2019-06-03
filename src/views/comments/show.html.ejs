@@ -1,0 +1,31 @@
+<%- include('../partials/navbar') %>
+
+<div class="flex-grid-fourths">
+  <div class="col"></div>
+  <div class="col2">
+  	<% if(postedBy.orgId){ %>
+  		<a href="/org/<%=postedBy.id%>"><%= postedBy.name %></a>
+  	<% } else{ %>
+  		<a href="/user/<%=postedBy.id%>"><%= postedBy.firstName %> <%= postedBy.lastName %></a>
+  	<% } %>
+
+  	<% if(locals.canEdit){ %>
+		<form method="post" action="../<%=comment.id%>/edit">
+			<input type="hidden" name="_method" value="patch" />
+			<textarea class="form-control form-update-text" name="text"><%= comment.text%></textarea>
+			<button class="btn btn-primary" type="submit">update</button>
+		</form>
+
+		<form method="post" action="../<%=comment.id%>/delete">
+			<input type="hidden" name="_method" value="patch" />
+			<button style="margin-top: 20px;" class="btn btn-danger" type="submit">delete</button>
+		</form>
+	<% } else {%>
+		<p><%= comment.text %></p>
+	<% }%>
+
+	<% if(locals.message){ %>
+		<p>Comment updated!</p>
+	<% } %>
+  </div>
+  <div class="col"></div>

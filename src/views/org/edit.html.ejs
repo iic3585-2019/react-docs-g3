@@ -1,0 +1,47 @@
+<%- include('../partials/navbar') %>
+
+<div class="flex-grid-fourths">
+  <div class="col"></div>
+
+  <div class="col2">
+    <% if (locals.errors) { %>
+      <div class="errors">
+        Necesitas arreglar los siguiente errores:
+        <ul>
+          <% errors.forEach(error => { %>
+            <li><%= error.message %></li>
+          <% }); %>
+        </ul>
+      </div>
+    <% } %>
+
+    <% if(editable) { %>
+
+    <h1>Edit your organization</h1>
+    <form action="<%submitOrgPath%>" method="post">
+      <input type="hidden" name="_method" value="patch" />
+    	<label class="form-label">Organization Name</label>
+    	<textarea class="form-control" name="name" placeholder="<%= org.name %>" ><%= org.name %></textarea>
+
+    	<br>
+
+    	<label class="form-label">Organization Description</label>
+    	<textarea class="form-control" name="description" placeholder="<%=org.description%>"><%= org.description %></textarea>
+
+    	<br>
+
+    	<button class="btn btn-primary" type="submit">Edit</button>
+    </form>
+    <br>
+    <a class="no-deco" href="<%=orgDeletePath%>"><button class="btn-danger">Delete</button></a>
+
+    <% } else { %>
+      <h2>You do not have permission to edit this Organization</h2>
+      <br>
+      <a href="/" class="no-deco"><button class="btn btn-primary">Return Home</button></a>
+      <a href="<%= returnPath %>" class="no-deco"><button class="btn btn-primary">Return to previous page</button></a>
+    <% } %>
+  </div>
+
+  <div class="col"></div>
+</div>
