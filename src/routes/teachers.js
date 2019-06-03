@@ -28,7 +28,7 @@ router.get('/:id/stats/:userId', loadTeacher, async (ctx) => {
   const [votes] = res;
   const response = {
     popularity: {
-      votes: votes.voted_knowledge,
+      votes: votes.votes_popularity,
       voted: votes.voted_popularity,
       value: votes.popularity,
     },
@@ -53,7 +53,6 @@ router.get('/:id/stats/:userId', loadTeacher, async (ctx) => {
       value: votes.disposition,
     },
   };
-  console.log(response);
   ctx.body = response;
 });
 

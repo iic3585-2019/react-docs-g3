@@ -1,16 +1,19 @@
 import { courseConstants, fileConstants, linkConstants } from '../constants';
 
-export default function reducer(state = {
-  courseFiles: [],
-  links: [],
-  courseTeachers: [],
-  fetchingCourseFiles: false,
-  fetchingCourseLinks: false,
-  fetchingCourse: false,
-  puttingLink: false,
-  error: null,
-  course: null,
-}, action) {
+export default function reducer(
+  state = {
+    courseFiles: [],
+    links: [],
+    courseTeachers: [],
+    fetchingCourseFiles: false,
+    fetchingCourseLinks: false,
+    fetchingCourse: false,
+    puttingLink: false,
+    error: null,
+    course: null,
+  },
+  action,
+) {
   switch (action.type) {
     case courseConstants.FETCH_COURSE_FILES: {
       return { ...state, fetchingCourseFiles: true };
@@ -53,7 +56,7 @@ export default function reducer(state = {
     }
 
     case courseConstants.FETCH_COURSE_LINKS_FULLFILED: {
-      return { ...state, fetchingCourseTeachers: false, links: action.payload };
+      return { ...state, fetchingCourseLinks: false, links: action.payload };
     }
 
     case courseConstants.FETCH_COURSE_TEACHERS_FULLFILED: {

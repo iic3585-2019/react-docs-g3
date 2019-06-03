@@ -16,9 +16,15 @@ exports.upload = async function upload(ctx, files, fields, io) {
         courseNumber: fields.courseNumber,
       };
       console.log(`uploading: ${key} to ${fields.courseNumber} from ${fields.user}`);
-      await fileStorage.upload(f, io);
-      const file = await ctx.orm.Files.build(body).save();
-      io.emit('fileUploaded', { file });
+      try {
+        const filedUploaded = await fileStorage.upload(f, io);
+        console.log(fileUploaded);
+        const file = await ctx.orm.Files.build(body).save();
+        io.emit('fileUploaded', { file });
+      } catch (e) {
+        console.log(e);
+        return e;
+      }
     } catch (e) {
       return { error: true, message: e.errors };
     }

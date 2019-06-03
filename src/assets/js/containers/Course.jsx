@@ -25,9 +25,10 @@ class Course extends Component {
 
     this.onClickLink = this.onClickLink.bind(this);
 
-    subscribeToTimer((err, timestamp) => this.setState({
-      timestamp,
-    }));
+    subscribeToTimer((err, timestamp) =>
+      this.setState({
+        timestamp,
+      }));
   }
 
   componentDidMount() {
@@ -51,24 +52,21 @@ class Course extends Component {
 
   render() {
     if (this.props.fetchingCourse) {
-      return (<p>Loading...</p>);
+      return <p>Loading...</p>;
     }
 
     return (
       <div id="container">
-        <p className="App-intro">This is the timer value: {this.state.timestamp}</p>
         <div id="header">
           <div id="course-info">
-            {this.props.course &&
+            {this.props.course && (
               <CourseCard
                 onClick={this.onClickDropzone}
                 course={this.props.course}
                 onClickLink={this.onClickLink}
               />
-            }
-            {this.props.courseFiles &&
-              <Files {...this.props} />
-            }
+            )}
+            {this.props.courseFiles && <Files {...this.props} />}
             {<Links {...this.props} />}
           </div>
         </div>

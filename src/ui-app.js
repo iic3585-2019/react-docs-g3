@@ -1,9 +1,12 @@
+/* eslint no-console: "off" */
+
 const path = require('path');
 const Koa = require('koa');
 const koaBody = require('koa-body');
 const koaLogger = require('koa-logger');
 const koaFlashMessage = require('koa-flash-message').default;
 const koaStatic = require('koa-static');
+const koaWebpack = require('koa-webpack');
 const render = require('koa-ejs');
 const session = require('koa-session');
 const override = require('koa-override-method');
@@ -15,8 +18,15 @@ const orm = require('./models');
 
 // App constructor
 const app = new Koa();
+const PORT = process.env.PORT || 3000;
 
-const server = http.createServer(app.callback());
+const server = http.createServer(app.callback()).listen(PORT, (err) => {
+  if (err) {
+    return console.error('Failed', err);
+  }
+  console.log(`Listening on port ${PORT}`);
+  return null;
+});
 
 const io = socket(server);
 
@@ -35,7 +45,7 @@ app.keys = [
   'these secret keys are used to sign HTTP cookies',
   'to make sure only this app can generate a valid one',
   'and thus preventing someone just writing a cookie',
-  'saying he is logged in when it\'s really not',
+  "saying he is logged in when it's really not",
 ];
 
 // expose ORM through context's prototype
@@ -61,8 +71,9 @@ app.use(koaLogger());
 
 // webpack middleware for dev mode only
 if (developmentMode) {
-/* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
-  app.use(require('koa-webpack')({ // eslint-disable-line global-require
+  /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
+  app.use(require('koa-webpack')({
+    // eslint-disable-line global-require
     dev: {
       index: 'index.html',
       stats: {
@@ -76,9 +87,12 @@ if (developmentMode) {
 app.use(koaStatic(path.join(__dirname, '..', 'build'), {}));
 
 // expose a session hash to store information across requests from same client
-app.use(session({
-  maxAge: 14 * 24 * 60 * 60 * 1000, // 2 weeks
-}, app));
+app.use(session(
+  {
+    maxAge: 14 * 24 * 60 * 60 * 1000, // 2 weeks
+  },
+  app,
+));
 
 // flash messages support
 app.use(koaFlashMessage);
@@ -137,7 +151,5 @@ app.use(routes.routes());
 
 // Static content
 app.use(koaStatic(path.join(__dirname, 'static')));
-
-server.listen(3000);
 
 module.exports = app;
